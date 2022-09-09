@@ -7,7 +7,7 @@ const customErrorHandler = (err, req, res, next) => {
   }
 
   if (err.name === "ValidationError") {
-    err = new CustomError(err.message, 400) // mongoose tarafından gelen mesaj
+    err = new CustomError(err.message, 400)
   }
 
   console.log(err.name, err.message, err.status)
