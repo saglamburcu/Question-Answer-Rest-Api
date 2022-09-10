@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const asyncErrorHandling = require("express-async-handler");
-const sendJwtToClient = require("../helpers/authorization/sendJwtToClient");
+const { sendJwtToClient } = require("../helpers/authorization/tokenHelpers");
 
 const register = asyncErrorHandling(async (req, res, next) => {
 
@@ -16,7 +16,17 @@ const register = asyncErrorHandling(async (req, res, next) => {
   sendJwtToClient(user, res);
 })
 
+const getUser = (req, res, next) => {
+  res.json({
+    success: true,
+    data: {
+      id: req.user.id,
+      name: req.user.name
+    }
+  })
+}
 
 module.exports = {
-  register
+  register,
+  getUser
 }
