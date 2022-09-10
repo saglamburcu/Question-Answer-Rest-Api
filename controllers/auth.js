@@ -3,14 +3,15 @@ const asyncErrorHandling = require("express-async-handler");
 
 const register = asyncErrorHandling(async (req, res, next) => {
 
-  const name = "User2";
-  const email = "user2@gmail.com";
-  const password = "1111";
+  console.log(req.body)
+
+  const { name, email, password, role } = req.body;
 
   const user = await User.create({
-    name: name,
-    email: email,
-    password: password
+    name,
+    email,
+    password,
+    role
   })
 
   res

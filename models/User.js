@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
@@ -9,7 +10,7 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Please provide an email"],
     unique: [true, "Please try different email"],
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Please provide a valid email"]
   },
@@ -48,6 +49,25 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false
   }
+})
+
+UserSchema.pre("save", function (next) {
+  // If the password has not changed, pass the another step.
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) next(err);
+
+    bcrypt.hash(this.password, salt, (err, hash) => {
+      if (err) next(err);
+
+      this.password = hash;
+      next();
+    });
+  });
+
 })
 
 module.exports = mongoose.model("User", UserSchema)
