@@ -10,6 +10,10 @@ const customErrorHandler = (err, req, res, next) => {
     err = new CustomError(err.message, 400)
   }
 
+  if (err.code === 11000) {
+    err = new CustomError("Duplicate Key Found : Check Your Input", 400)
+  }
+
   console.log(err.name, err.message, err.status)
 
   res
