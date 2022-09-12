@@ -58,9 +58,18 @@ const getUser = (req, res, next) => {
   })
 }
 
+const imageUpload = asyncErrorHandling(async (req, res, next) => {
+  res.status(200)
+    .json({
+      success: true,
+      message: "Image upload successfull"
+    })
+})
+
 module.exports = {
   register,
   login,
   getUser,
-  logout
+  logout,
+  imageUpload
 }
