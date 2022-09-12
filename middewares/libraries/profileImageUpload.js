@@ -6,17 +6,17 @@ const CustomError = require("../../helpers/error/CustomError");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const rootDir = path.dirname(require.main.filename) // main (server.js) dosyasının yolunu aldık
+    const rootDir = path.dirname(require.main.filename)
     cb(null, path.join(rootDir, "/public/uploads"));
 
-  }, // dosyanın hangi klasöre kaydedileceğini belirttik.
+  },
   filename: (req, file, cb) => {
     // File - Mimetype (image/png)
     const extension = file.mimetype.split("/")[1];
     req.savedProfileImage = `image_${req.user.id}.${extension}`
     cb(null, req.savedProfileImage);
 
-  } // atılan fotoğrafın filename'inin ne olacağını söylüyoruz.
+  }
 })
 
 const fileFilter = (req, file, cb) => {
