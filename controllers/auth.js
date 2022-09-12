@@ -34,6 +34,20 @@ const login = asyncErrorHandling(async (req, res, next) => {
   sendJwtToClient(user, res);
 })
 
+const logout = asyncErrorHandling(async (req, res, next) => {
+
+  const { NODE_ENV } = process.env;
+
+  return res.status(200).cookie({
+    httpOnly: true,
+    expires: new Date(Date.now()),
+    secure: NODE_ENV === "development" ? false : true
+  }).json({
+    success: true,
+    message: "Logout Successfull"
+  })
+})
+
 const getUser = (req, res, next) => {
   res.json({
     success: true,
@@ -47,5 +61,6 @@ const getUser = (req, res, next) => {
 module.exports = {
   register,
   login,
-  getUser
+  getUser,
+  logout
 }
